@@ -59,7 +59,7 @@ The first command imports that image we downloaded earlier, if your disk storage
     #cloud-config
     runcmd:
         - apt update
-        - apt install -y qemu-guest-agent whois fastfetch bind9 wget curl wireguard unzip screen
+        - apt install -y qemu-guest-agent whois fastfetch bind9 wget curl wireguard unzip screen htop
         - systemctl start qemu-guest-agent
         - curl -o /root/.bashrc https://dl.linux4.de/bash.bashrc
         - echo "clear && fastfetch" >> /root/.bashrc
