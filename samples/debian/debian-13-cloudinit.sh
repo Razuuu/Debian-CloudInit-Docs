@@ -1,9 +1,10 @@
-#! /bin/bash
+#!/bin/bash
 
 set -xe
 
+NIC="${NIC:-vmbr1}"
 VMID="${VMID:-8000}"
-STORAGE="${STORAGE:-local-zfs}"
+STORAGE="${STORAGE:-local-lvm}"
 
 IMG="debian-13-generic-amd64.qcow2"
 BASE_URL="https://cloud.debian.org/images/cloud/trixie/latest"
@@ -39,7 +40,7 @@ sudo qm create $VMID --name "debian-13-template" --ostype l26 \
     --bios ovmf --machine q35 --efidisk0 $STORAGE:0,pre-enrolled-keys=0 \
     --cpu x86-64-v2-AES --cores 1 --numa 1 \
     --vga serial0 --serial0 socket  \
-    --net0 virtio,bridge=vmbr0,mtu=1
+    --net0 virtio,bridge=$NIC,mtu=1
 sudo qm importdisk $VMID debian-13-generic-amd64-resized.qcow2 $STORAGE
 sudo qm set $VMID --scsihw virtio-scsi-pci --virtio0 $STORAGE:vm-$VMID-disk-1,discard=on
 sudo qm set $VMID --boot order=virtio0
@@ -49,9 +50,12 @@ cat << EOF | sudo tee /var/lib/vz/snippets/debian-13.yaml
 #cloud-config
 runcmd:
     - apt-get update
-    - apt-get install -y qemu-guest-agent
+    - apt-get install -y qemu-guest-agent whois fastfetch bind9 wget curl wireguard unzip screen
+    - systemctl start qemu-guest-agent
+    - curl -o /root/.bashrc https://dl.linux4.de/bash.bashrc
+    - echo "clear && fastfetch" >> /root/.bashrc
     - reboot
-# Taken from https://forum.proxmox.com/threads/combining-custom-cloud-init-with-auto-generated.59008/page-3#post-428772
+# Most of it taken from https://forum.proxmox.com/threads/combining-custom-cloud-init-with-auto-generated.59008/page-3#post-428772
 EOF
 
 sudo qm set $VMID --cicustom "vendor=local:snippets/debian-13.yaml"
