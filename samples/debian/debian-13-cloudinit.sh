@@ -51,7 +51,7 @@ cat << EOF | sudo tee /var/lib/vz/snippets/debian-13.yaml
 #cloud-config
 runcmd:
     - apt-get update
-    - apt-get install -y qemu-guest-agent whois fastfetch bind9 wget curl wireguard unzip screen htop
+    - apt install -y qemu-guest-agent whois fastfetch bind9 wget curl wireguard unzip screen htop tree speedtest w3m traceroute whois fail2ban dnsutils net-tools nmap ntp vnstat
     - systemctl start qemu-guest-agent
     - curl -o /root/.bashrc https://dl.linux4.de/bash.bashrc
     - echo "clear && fastfetch" >> /root/.bashrc
