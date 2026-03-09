@@ -56,7 +56,7 @@ runcmd:
     - apt-get update
     - apt install -y qemu-guest-agent whois fastfetch bind9 wget curl wireguard unzip screen htop tree speedtest w3m traceroute whois fail2ban dnsutils net-tools nmap ntp vnstat
     - systemctl start qemu-guest-agent
-    - curl -o /root/.bashrc https://dl.linux4.de/bash.bashrc
+    - curl -o /root/.bashrc https://raw.githubusercontent.com/Razuuu/Debian-CloudInit-Docs/refs/heads/main/bash.bashrc
     - echo "clear && fastfetch" >> /root/.bashrc
     - reboot
 # Most of it taken from https://forum.proxmox.com/threads/combining-custom-cloud-init-with-auto-generated.59008/page-3#post-428772
