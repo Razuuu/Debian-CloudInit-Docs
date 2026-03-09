@@ -59,7 +59,7 @@ The first command imports that image we downloaded earlier, if your disk storage
     #cloud-config
     runcmd:
         - apt update
-        - apt install -y qemu-guest-agent whois fastfetch bind9 wget curl wireguard unzip screen htop tree speedtest w3m traceroute whois fail2ban dnsutils net-tools nmap ntp vnstat
+        - apt install -y qemu-guest-agent whois fastfetch bind9 wget curl wireguard unzip screen htop tree speedtest-cli w3m traceroute whois fail2ban dnsutils net-tools nmap vnstat wtmpdb
         - systemctl start qemu-guest-agent
         - curl -o /root/.bashrc https://raw.githubusercontent.com/Razuuu/Debian-CloudInit-Docs/refs/heads/main/bash.bashrc
         - echo "clear && fastfetch" >> /root/.bashrc
