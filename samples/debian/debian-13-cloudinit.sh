@@ -2,7 +2,7 @@
 
 set -xe
 
-NIC="${NIC:-vmbr1}"
+NIC="${NIC:-vmbr0}"
 VMID="${VMID:-8000}"
 STORAGE="${STORAGE:-local-lvm}"
 

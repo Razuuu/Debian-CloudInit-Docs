@@ -8,12 +8,12 @@ For this guide I have made a few assumptions:
 * Your Proxmox node's main storage is called `local-lvm`
 * You want to use Debian 13
 * You have SSH keys stored in ~/.ssh/authorized_keys of your regular user's home folder
-* You're using your second nic (vrbr1 instead of vmbr0) 
+* You're using your primary nic (vrbr0) 
 
 ## Quick start
 If you want to quickly create an debian VM template using this guide, you can run the following:
 ```
-export NIC=vmbr1 VMID=8300 STORAGE=local-lvm
+export NIC=vmbr0 VMID=8300 STORAGE=local-lvm
 curl -fsSL https://raw.githubusercontent.com/Razuuu/Debian-CloudInit-Docs/refs/heads/main/samples/debian/debian-13-cloudinit.sh | bash
 ```
 
@@ -40,7 +40,7 @@ The next step is to create a basic VM that we'll build upon:
         --bios ovmf --machine q35 --efidisk0 local-lvm:0,pre-enrolled-keys=0 \
         --cpu host --sockets 1 --cores 1 \
         --vga serial0 --serial0 socket  \
-        --net0 virtio,bridge=vmbr1
+        --net0 virtio,bridge=vmbr0
 
 Feel free to change the 8001 to whatever you like, so long as you replace the 8001 in subsequent commands to whatever you chose. The memory chosen doesn't really matter because this particular VM won't start, make sure to adjust the amount of RAM for cloned VMs. `--agent ` enables the Qemu Guest Agent which is useful for all sorts of things like seeing the IP addresses of any interfaces. We'll set the CPU type to host (you almost always want this) with one socket and one core (remember to change the number of cores in cloned VMs). Next is the GPU, you can choose virtio instead of serial0 if you like but there's no need; serial gpu type does let you copy and paste which can be useful. Finally is the NIC, if you have a special bridge interface you want to choose change `vmbr0` to whatever you like. If you want to use a VLAN tag add `,tag=##` immediately after the bridge name (no spaces)
 
